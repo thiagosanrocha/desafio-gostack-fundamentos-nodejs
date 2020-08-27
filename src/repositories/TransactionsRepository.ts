@@ -21,34 +21,36 @@ class TransactionsRepository {
   }
 
   public getBalance(): Balance {
-    const balance = this.transactions.reduce(
+    const balance = new Balance({
+      income: 0,
+      outcome: 0,
+      total: 0,
+    });
+
+    const balanceReduce = this.transactions.reduce(
       (acumulator, transaction) => {
+        const income =
+          transaction.type === 'income'
+            ? transaction.value + acumulator.income
+            : acumulator.income;
+
+        const outcome =
+          transaction.type === 'outcome'
+            ? transaction.value + acumulator.outcome
+            : acumulator.outcome;
+
+        const total = income - outcome;
+
         return {
-          income:
-            transaction.type === 'income'
-              ? transaction.value + acumulator.income
-              : acumulator.income,
-          outcome:
-            transaction.type === 'outcome'
-              ? transaction.value + acumulator.outcome
-              : acumulator.outcome,
-          total:
-            (transaction.type === 'income'
-              ? transaction.value + acumulator.income
-              : acumulator.income) -
-            (transaction.type === 'outcome'
-              ? transaction.value + acumulator.outcome
-              : acumulator.outcome),
+          income,
+          outcome,
+          total,
         };
       },
-      {
-        income: 0,
-        outcome: 0,
-        total: 0,
-      },
+      balance,
     );
 
-    return balance;
+    return balanceReduce;
   }
 
   public create({ title, value, type }: CreateTransaction): Transaction {

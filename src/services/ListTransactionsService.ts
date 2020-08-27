@@ -8,7 +8,7 @@ interface TransactionAndBalance {
 }
 
 class ListTransactions {
-  transactionsRepository: TransactionsRepository;
+  private transactionsRepository: TransactionsRepository;
 
   constructor(transactionsRepository: TransactionsRepository) {
     this.transactionsRepository = transactionsRepository;

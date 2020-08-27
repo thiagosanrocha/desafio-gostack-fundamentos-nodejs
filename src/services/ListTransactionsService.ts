@@ -1,13 +1,10 @@
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import Transaction from '../models/Transaction';
+import Balance from '../models/Balance';
 
 interface TransactionAndBalance {
   transactions: Transaction[];
-  balance: {
-    income: number;
-    outcome: number;
-    total: number;
-  };
+  balance: Balance;
 }
 
 class ListTransactions {
